@@ -95,7 +95,7 @@
         <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
             <div class="sidebar-brand">
                 <a href="{{ route("home.index") }}" class="brand-link">
-                    <img src="{{ asset("images/Logo Cassava Rounded.png") }}" alt="AdminLTE Logo" class="brand-image opacity-75 shadow" />
+                    <img src="{{ asset("images/Logo Cassava Rounded.png") }}" alt="AdminLTE Logo" class="brand-image shadow" />
                     <span class="brand-text fw-light">Cassava</span>
                 </a>
             </div>
@@ -161,7 +161,7 @@
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-end">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route("home.index") }}">Home</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
                             </ol>
                         </div>
