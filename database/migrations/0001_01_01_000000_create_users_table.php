@@ -17,6 +17,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string("nomor_telepon")->nullable();
+            $table->string("nim")->unique()->nullable();
+            $table->enum("peran", ["Admin", "Mahasiswa", "UKM"])->default("Mahasiswa");
+            $table->integer("poin_tak")->default(0);
             $table->rememberToken();
             $table->timestamps();
         });
