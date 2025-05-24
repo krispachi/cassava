@@ -20,7 +20,8 @@ Route::get('/pusat-informasi', function() {
 
 Route::resource("/tak", TAKController::class);
 Route::resource("/kegiatan-ukm", KegiatanUKMController::class);
-Route::resource("/user", UserController::class);
+Route::resource("/users", UserController::class);
+Route::get("/profile", [UserController::class, "profile"])->name("users.profile");
 
 Route::get("/user/profile", [UserController::class, "profile"])->name("user.profile");
 Route::get("/kegiatan-ukm/riwayat", [KegiatanUKMController::class, "riwayat"])->name("kegiatan-ukm.riwayat.index");

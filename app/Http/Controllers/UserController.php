@@ -12,7 +12,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        return view("users.index");
     }
 
     /**
@@ -20,7 +20,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view("users.create");
     }
 
     /**
@@ -36,7 +36,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        return view("users.show");
     }
 
     /**
@@ -44,7 +44,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        return view("users.edit");
     }
 
     /**
