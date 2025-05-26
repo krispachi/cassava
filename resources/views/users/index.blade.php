@@ -30,7 +30,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between">
-                            <h3 class="mb-0">Daftar Pengguna</h3>
+                            <h3 class="mb-0">Daftar User</h3>
                             <a href="{{ route("users.create") }}" class="btn btn-success ms-auto"><i class="fa-solid fa-plus me-2"></i>Tambah User</a>
                         </div>
                         <div class="card-body">
@@ -86,7 +86,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js" integrity="sha384-VFQrHzqBh5qiJIU0uGU5CIW3+OWpdGGJM9LBnGbuIH2mkICcFZ7lPd/AAtI7SNf7" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js" integrity="sha384-/RlQG9uf0M2vcTw3CX7fbqgbj/h8wKxw7C3zu9/GxcBPRKOEcESxaxufwRXqzq6n" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.3.1/b-3.2.3/b-colvis-3.2.3/b-html5-3.2.3/b-print-3.2.3/r-3.0.4/datatables.min.js" integrity="sha384-k7reqywLL1UJzUEpWUO5bRgD8Lu1dX/ptIibiIMKaMM/oyF86G7A2dyGTUpIXJzv" crossorigin="anonymous"></script>
-<script src="https://kit.fontawesome.com/df662858df.js" crossorigin="anonymous"></script>
 
 <script>
     let userTable = new DataTable("#userTable", {
