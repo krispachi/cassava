@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -28,7 +29,23 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            "name" => "required|string",
+            "nim" => "required|string|unique:users",
+            "nomor_telepon" => "required|string",
+            "peran" => "required|string|in:Admin,Mahasiswa,UKM",
+            "email" => "required|email|unique:users",
+            "password" => "required|string|confirmed|min:4"
+        ]);
+        $validatedData["created_at"] = date("Y-m-d H:i:s");
+        $validatedData["updated_at"] = date("Y-m-d H:i:s");
+
+        try {
+            User::create($validatedData);
+            return redirect()->route("users.index")->with("success", "User " . $validatedData["name"] . " berhasil ditambah.");
+        } catch (Exception $exception) {
+            return redirect()->route("users.create")->withInput()->with("error", $exception->getMessage());
+        }
     }
 
     /**

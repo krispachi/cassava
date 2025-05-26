@@ -13,6 +13,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css" integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q=" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/styles/overlayscrollbars.min.css" integrity="sha256-tZHrRjVqNSRyWg2wbppGnT833E/Ys0DHWGwT04GiqQg=" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" integrity="sha256-9kPW/n5nn53j4WMRYAxe9c1rCY96Oogo/MKSVdKzPmI=" crossorigin="anonymous" />
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Font Awesome 6 -->
+    <script src="https://kit.fontawesome.com/df662858df.js" crossorigin="anonymous"></script>
     @yield("headlinks-before-adminlte")
     <link rel="stylesheet" href="{{ asset("AdminLTE4/dist/css/adminlte.css") }}" />
     @yield("headlinks-after-adminlte")
@@ -22,6 +26,39 @@
     <div class="app-wrapper">
         @include("components.navbar")
         @include("components.sidebar")
+
+        @if (session()->has("success") || session()->has("warning") || session()->has("error"))
+            <script>
+                let tipe;
+                let pesan;
+                @if (session()->has("success"))
+                    tipe = "success";
+                    pesan = '{{ session("success") }}';
+                @elseif (session()->has("warning"))
+                    tipe = "warning";
+                    pesan = '{{ session("warning") }}';
+                @else
+                    tipe = "error";
+                    pesan = '{{ session("error") }}';
+                @endif;
+                
+                Swal.fire({
+                    icon: tipe,
+                    title: pesan,
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 4000,
+                    timerProgressBar: true,
+                    showCloseButton: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+            </script>
+        @endif
+        
         @yield("content")
         @include("components.footer")
     </div>
@@ -31,7 +68,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous">
     </script>
     <script src="{{ asset("AdminLTE4/dist/js/adminlte.js") }}"></script>
-    <script src="https://kit.fontawesome.com/df662858df.js" crossorigin="anonymous"></script>
 
     <script>
         const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
