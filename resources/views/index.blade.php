@@ -191,14 +191,13 @@
                     alt="Logo Universitas Primakara" class="h-10 md:h-12">
             </a>
             <nav class="hidden lg:flex items-center space-x-8">
-                <a href="#hero" class="nav-link">Beranda</a>
-                <a href="#fitur" class="nav-link">Fitur Portal</a>
-                <a href="#ukm" class="nav-link">UKM</a>
-                <a href="#tak" class="nav-link">TAK</a>
+                <a href="" class="nav-link">Beranda</a>
+                <a href="" class="nav-link">Fitur Portal</a>
+                <a href="" class="nav-link">UKM</a>
+                <a href="" class="nav-link">TAK</a>
             </nav>
             <div class="hidden lg:flex items-center space-x-3">
-                <a href="/login" class="btn-outline text-sm px-5 py-2">Masuk</a>
-                <a href="/register" class="btn-primary text-sm px-5 py-2">Daftar</a>
+                <a href="/login" class="btn-primary text-sm px-5 py-2">Masuk</a>
             </div>
             <div class="lg:hidden">
                 <button id="mobile-menu-button" class="text-primakara-blue focus:outline-none">
@@ -212,13 +211,12 @@
         </div>
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="lg:hidden hidden bg-white shadow-lg border-t border-primakara-light">
-            <a href="#hero" class="nav-link-mobile">Beranda</a>
-            <a href="#fitur" class="nav-link-mobile">Fitur Portal</a>
-            <a href="#ukm" class="nav-link-mobile">UKM</a>
-            <a href="#tak" class="nav-link-mobile">TAK</a>
+            <a href="" class="nav-link-mobile">Beranda</a>
+            <a href="" class="nav-link-mobile">Fitur Portal</a>
+            <a href="" class="nav-link-mobile">UKM</a>
+            <a href="" class="nav-link-mobile">TAK</a>
             <div class="p-4 border-t border-primakara-light">
-                <a href="/login" class="block w-full text-center btn-outline mb-2">Masuk</a>
-                <a href="/register" class="block w-full text-center btn-primary">Daftar</a>
+                <a href="/login" class="block w-full text-center btn-primary mb-2">Masuk</a>
             </div>
         </div>
     </header>
@@ -632,8 +630,6 @@
                                 TAK</a></li>
                         <li><a href="/login"
                                 class="opacity-80 hover:opacity-100 hover:text-white transition-colors">Masuk</a></li>
-                        <li><a href="/register"
-                                class="opacity-80 hover:opacity-100 hover:text-white transition-colors">Daftar</a></li>
                     </ul>
                 </div>
                 <div>
