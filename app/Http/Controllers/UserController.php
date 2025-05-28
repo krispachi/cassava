@@ -83,15 +83,27 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return view("users.show");
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user)
+    public function edit(int $userId)
     {
-        return view("users.edit");
+        try {
+            $userData = User::select(["id", "name", "nim", "nomor_telepon", "peran", "email"])->where("id", $userId)->first();
+            
+            if(empty($userData)) {
+                throw new Exception("User tidak ditemukan.");
+            }
+
+            return view("users.edit", [
+                "user" => $userData
+            ]);
+        } catch (Exception $exception) {
+            return redirect()->route("users.index")->with("error", $exception->getMessage());
+        }
     }
 
     /**
@@ -99,7 +111,31 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        if(empty($user)) {
+            return redirect()->route("users.index")->with("error", "User tidak ditemukan.");
+        }
+
+        $validatedData = $request->validate([
+            "name" => "required|string",
+            "nim" => "required|string|unique:users,nim," . $user->id,
+            "nomor_telepon" => "required|string",
+            "peran" => "required|string|in:Admin,Mahasiswa,UKM",
+            "email" => "required|email|unique:users,email," . $user->id,
+            "password" => "nullable|string|confirmed|min:4"
+        ]);
+        $validatedData["updated_at"] = date("Y-m-d H:i:s");
+
+        // Jika password kosong, maka hapus variabel
+        if(empty($validatedData["password"])) {
+            unset($validatedData["password"]);
+        }
+
+        try {
+            $user->update($validatedData);
+            return redirect()->route("users.index")->with("success", "User " . $validatedData["name"] . " berhasil diubah.");
+        } catch (Exception $exception) {
+            return redirect()->route("users.edit", $user->id)->withInput()->with("error", $exception->getMessage());
+        }
     }
 
     /**
@@ -108,10 +144,14 @@ class UserController extends Controller
     public function destroy(Request $request, User $user)
     {
         try {
+            if(empty($user)) {
+                throw new Exception("User tidak ditemukan.");
+            }
+
             $userId = $user->id;
             $user->delete();
 
-            if($userId == auth()->user()->id ?? -1) {
+            if($userId == (auth()->user()->id ?? -1)) {
                 Auth::logout();
                 $request->session()->invalidate();
                 $request->session()->regenerateToken();
@@ -128,7 +168,7 @@ class UserController extends Controller
     public function profile(int $userId = null)
     {
         if(empty($user)) {
-            $userId = auth()->user()->id;
+            $userId = auth()->user()->id ?? -1;
         }
     }
 }

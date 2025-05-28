@@ -94,7 +94,7 @@
             ajax: "{{ route('users.index') }}",
             processing: true,
             serverSide: true,
-            responsie: true, // ##
+            responsive: true,
             layout: {
                 topStart: [
                     {
@@ -268,6 +268,9 @@
                             success: function(response) {
                                 if(response.error) {
                                     sweetAlert2("error", response.error);
+                                } else if(response.warning) {
+                                    userTable.ajax.reload();
+                                    sweetAlert2("warning", response.warning);
                                 } else if(response.redirect) {
                                     window.location.href = response.redirect;
                                 } else if(response.success) {
