@@ -5,14 +5,44 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\DataTables;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->ajax()) {
+			$users = User::select(["id", "name", "nim", "email", "nomor_telepon", "peran", "created_at"]);
+			return DataTables::of($users)
+				->addIndexColumn()
+				->addColumn("aksi", function ($user) {
+					return '<span style="white-space: nowrap">
+                                <a href="' . route("users.edit", $user->id) . '" class="btn btn-warning btn-sm">
+                                    <i class="fa-solid fa-pen-to-square me-2"></i>Ubah
+                                </a>
+								<button type="submit" class="btn btn-danger btn-sm text-light button-delete" data-id="' . $user->id . '" data-name="' . $user->name . '">
+									<i class="fa-solid fa-trash me-2"></i>Hapus
+								</button>
+                            </span>';
+				})
+                ->addColumn("created_at", function($user) {
+                    return $user->created_at->format("d F Y H:i:s");
+                })
+                ->filterColumn('created_at', function ($query, $keyword) {
+                    $query->whereRaw("DATE_FORMAT(created_at, '%d %M %Y %H:%i:%s') LIKE ?", ["%$keyword%"]);
+                })
+                ->orderColumn("created_at", function($query, $order) {
+                    $query->orderBy("created_at", $order);
+                })
+				->rawColumns(["aksi", "created_at"])
+                ->makeHidden(["id"])
+				->make(true);
+		}
+
         return view("users.index");
     }
 
@@ -75,13 +105,30 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(Request $request, User $user)
     {
-        //
+        try {
+            $userId = $user->id;
+            $user->delete();
+
+            if($userId == auth()->user()->id ?? -1) {
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+                $request->session()->flash("success", "User berhasil dihapus.");
+                return response()->json(["redirect" => route("login")]);
+            }
+            
+            return response()->json(["success" => "User berhasil dihapus."]);
+        } catch (Exception $exception) {
+            return response()->json(["error" => $exception->getMessage()]);
+        }
     }
 
-    public function profile()
+    public function profile(int $userId = null)
     {
-        //
+        if(empty($user)) {
+            $userId = auth()->user()->id;
+        }
     }
 }

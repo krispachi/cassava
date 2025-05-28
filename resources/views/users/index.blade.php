@@ -3,6 +3,7 @@
 @section("title", "Users - Cassava")
 
 @section("headlinks-after-adminlte")
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <link rel="stylesheet" href="https://cdn.datatables.net/2.3.1/css/dataTables.bootstrap5.css">
 <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.3.1/b-3.2.3/b-colvis-3.2.3/b-html5-3.2.3/b-print-3.2.3/r-3.0.4/datatables.min.css" rel="stylesheet" integrity="sha384-/FgoGbGX5x+MVCTrrHFQKgHo8wY2qiEnzgL3hRQVCx98jC+plKWLKge9hbDtBlL8" crossorigin="anonymous">
 @endsection
@@ -37,17 +38,17 @@
                             <table id="userTable" class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
-                                        <th style="width: 0%" class="">No.</th>
+                                        <th style="width: 1%">No.</th>
                                         <th>Nama</th>
                                         <th>NIM</th>
                                         <th>Email</th>
                                         <th>Nomor Telepon</th>
                                         <th>Peran</th>
                                         <th>Tanggal Masuk</th>
-                                        <th>Aksi</th>
+                                        <th style="width: 1%;">Aksi</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                {{-- <tbody>
                                     <tr>
                                         <td>1</td>
                                         <td>Row 1 Data 2</td>
@@ -68,7 +69,7 @@
                                         <td>Row 2 Data 2</td>
                                         <td>Ubah Hapus</td>
                                     </tr>
-                                </tbody>
+                                </tbody> --}}
                             </table>
                         </div>
                     </div>
@@ -88,20 +89,197 @@
 <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.3.1/b-3.2.3/b-colvis-3.2.3/b-html5-3.2.3/b-print-3.2.3/r-3.0.4/datatables.min.js" integrity="sha384-k7reqywLL1UJzUEpWUO5bRgD8Lu1dX/ptIibiIMKaMM/oyF86G7A2dyGTUpIXJzv" crossorigin="anonymous"></script>
 
 <script>
-    let userTable = new DataTable("#userTable", {
-        layout: {
-            topStart: [
+    $(document).ready(function() {
+        let userTable = new DataTable("#userTable", {
+            ajax: "{{ route('users.index') }}",
+            processing: true,
+            serverSide: true,
+            responsie: true, // ##
+            layout: {
+                topStart: [
+                    {
+                        buttons: [{
+                            extend: "excel",
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'pdf',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'print',
+                            split: [
+                                {
+                                    extend: "csv",
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                },
+                                {
+                                    extend: 'copy',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                }
+                            ],
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            text: "Kolom",
+                            extend: 'colvis',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        }
+                    ],
+                    },
+                    'pageLength'
+                ],
+                topEnd: 'search',
+                bottomStart: 'info',
+                bottomEnd: 'paging'
+            },
+            columns: [
                 {
-                    buttons: [
-                        'excel', 'pdf', 'print', 'colvis'
-                    ]
+                    data: "DT_RowIndex",
+                    orderable: false,
+                    searchable: false
                 },
-                'pageLength'
+                {
+                    data: "name"
+                },
+                {
+                    data: "nim"
+                },
+                {
+                    data: "email"
+                },
+                {
+                    data: "nomor_telepon"
+                },
+                {
+                    data: "peran"
+                },
+                {
+                    data: "created_at"
+                },
+                {
+                    data: "aksi",
+                    orderable: false,
+                    searchable: false
+                }
             ],
-            topEnd: 'search',
-            bottomStart: 'info',
-            bottomEnd: 'paging'
+            drawCallback: function(response) {
+                let api = this.api();
+                let json = api.ajax.json();
+
+                if (json.warning) {
+                    sweetAlert2("warning", json.warning);
+                }
+                if (json.error) {
+                    sweetAlert2("error", json.error);
+                }
+            }
+        });
+
+        function sweetAlert2(status, pesan) {
+            Swal.fire({
+                icon: status,
+                title: pesan,
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 4000,
+                timerProgressBar: true,
+                showCloseButton: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            });
         }
+
+        $("#userTable").on("click", ".button-delete", function(event) {
+            event.preventDefault();
+
+            let nameUser = $(this).data("name");
+            nameUser = nameUser ? ' "' + nameUser + '" ' : '';
+
+            Swal.fire({
+                title: 'Konfirmasi Hapus',
+                text: ("Data User" + nameUser + "akan dihapus!"),
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#DC3545',
+                cancelButtonColor: '#17A2B8',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal',
+                focusCancel: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let url = "{{ route("users.destroy", ":nilai") }}";
+                    url = url.replace(":nilai", $(this).data("id"));
+
+                    if("{{ auth()->user()->id ?? '-1' }}" == $(this).data("id")) {
+                        Swal.fire({
+                            title: 'Konfirmasi Hapus Akun',
+                            text: ("Anda akan LogOut setelah akun dihapus!"),
+                            icon: 'error',
+                            showCancelButton: true,
+                            confirmButtonColor: '#DC3545',
+                            cancelButtonColor: '#17A2B8',
+                            confirmButtonText: 'Hapus AKUN',
+                            cancelButtonText: 'Batal',
+                            focusCancel: true
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $.ajax({
+                                    url: url,
+                                    method: 'DELETE',
+                                    data: {
+                                        _token: $('meta[name="csrf-token"]').attr('content'),
+                                    },
+                                    success: function(response) {
+                                        if(response.error) {
+                                            sweetAlert2("error", response.error);
+                                        } else if(response.redirect) {
+                                            window.location.href = response.redirect;
+                                        } else if(response.success) {
+                                            userTable.ajax.reload();
+                                            sweetAlert2("success", response.success);
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        $.ajax({
+                            url: url,
+                            method: 'DELETE',
+                            data: {
+                                _token: $('meta[name="csrf-token"]').attr('content'),
+                            },
+                            success: function(response) {
+                                if(response.error) {
+                                    sweetAlert2("error", response.error);
+                                } else if(response.redirect) {
+                                    window.location.href = response.redirect;
+                                } else if(response.success) {
+                                    userTable.ajax.reload();
+                                    sweetAlert2("success", response.success);
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        });
     });
 </script>
 @endsection

@@ -33,21 +33,21 @@
                             <div class="card-body">
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Nama Pengguna</label>
-                                    <input type="text" name="name" id="name" class="form-control @error("name") is-invalid @enderror" value="{{ old("name") }}" placeholder="Masukkan Nama User" required>
+                                    <input type="text" name="name" id="name" class="form-control @error("name") is-invalid @enderror" value="{{ old("name") }}" placeholder="Masukkan Nama User" required @if(!$errors->any()) autofocus @endif @error("name") autofocus @enderror>
                                     @error("name")
                                         <p class="text-danger">{{ $message }}</p>
                                     @enderror
                                 </div>
                                 <div class="mb-3">
                                     <label for="nim" class="form-label">NIM</label>
-                                    <input type="text" name="nim" id="nim" class="form-control @error("nim") is-invalid @enderror" value="{{ old("nim") }}" placeholder="Masukkan NIM User" required>
+                                    <input type="text" name="nim" id="nim" class="form-control @error("nim") is-invalid @enderror" value="{{ old("nim") }}" placeholder="Masukkan NIM User" required @error("nim") autofocus @enderror>
                                     @error("nim")
                                         <p class="text-danger">{{ $message }}</p>
                                     @enderror
                                 </div>
                                 <div class="mb-3">
                                     <label for="nomor_telepon" class="form-label">Nomor Telepon</label>
-                                    <input type="text" name="nomor_telepon" id="nomor_telepon" class="form-control @error("nomor_telepon") is-invalid @enderror" value="{{ old("nomor_telepon") }}" placeholder="Masukkan Nomor Telepon User" required>
+                                    <input type="text" name="nomor_telepon" id="nomor_telepon" class="form-control @error("nomor_telepon") is-invalid @enderror" value="{{ old("nomor_telepon") }}" placeholder="Masukkan Nomor Telepon User" required @error("nomor_telepon") autofocus @enderror>
                                     <div id="emailHelp" class="form-text">Gunakan format +62 atau 0.</div>
                                     @error("nomor_telepon")
                                         <p class="text-danger">{{ $message }}</p>
@@ -55,7 +55,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="peran" class="form-label">Peran</label>
-                                    <select name="peran" id="peran" class="form-select @error("peran") is-invalid @enderror" required>
+                                    <select name="peran" id="peran" class="form-select @error("peran") is-invalid @enderror" required @error("peran") autofocus @enderror>
                                         <option selected>Pilih Peran User</option>
                                         <option value="Mahasiswa" {{ old("peran") == "Mahasiswa" ? "selected" : "" }}>Mahasiswa</option>
                                         <option value="Admin" {{ old("peran") == "Admin" ? "selected" : "" }}>Admin</option>
@@ -67,7 +67,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email</label>
-                                    <input type="email" name="email" id="email" class="form-control @error("email") is-invalid @enderror" value="{{ old("email") }}" placeholder="Masukkan Email User" aria-describedby="emailHelp" required>
+                                    <input type="email" name="email" id="email" class="form-control @error("email") is-invalid @enderror" value="{{ old("email") }}" placeholder="Masukkan Email User" aria-describedby="emailHelp" required @error("email") autofocus @enderror>
                                     <div id="emailHelp" class="form-text">Kami tidak akan membagikan Email Anda kepada orang lain.</div>
                                     @error("email")
                                         <p class="text-danger">{{ $message }}</p>
@@ -75,14 +75,14 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Password</label>
-                                    <input type="password" name="password" id="password" class="form-control @error("password") is-invalid @enderror" placeholder="Masukkan Password User" required>
+                                    <input type="password" name="password" id="password" class="form-control @error("password") is-invalid @enderror" placeholder="Masukkan Password User" required @error("password") autofocus @enderror>
                                     @error("password")
                                         <p class="text-danger">{{ $message }}</p>
                                     @enderror
                                 </div>
                                 <div class="mb-3">
                                     <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
-                                    <input type="password" name="password_confirmation" id="password_confirmation" class="form-control @error("password_confirmation") is-invalid @enderror" placeholder="Konfirmasi Password User" aria-describedby="passwordConfirmationHelp" required>
+                                    <input type="password" name="password_confirmation" id="password_confirmation" class="form-control @error("password_confirmation") is-invalid @enderror" placeholder="Konfirmasi Password User" aria-describedby="passwordConfirmationHelp" required @error("password_confirmation") autofocus @enderror>
                                     <div id="passwordConfirmationHelp" class="form-text">Ketikkan Password sekali lagi untuk konfirmasi.</div>
                                     @error("password_confirmation")
                                         <p class="text-danger">{{ $message }}</p>
@@ -104,8 +104,4 @@
 
 @section("bodyscripts")
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-
-<script>
-    
-</script>
 @endsection
