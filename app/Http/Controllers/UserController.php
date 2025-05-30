@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Exception;
+use Faker\Calculator\Ean;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
@@ -21,11 +22,14 @@ class UserController extends Controller
 				->addIndexColumn()
 				->addColumn("aksi", function ($user) {
 					return '<span style="white-space: nowrap">
+                                <a href="' . route("users.profile.show", $user->id) . '" class="btn btn-info btn-sm">
+                                    <i class="fa-regular fa-id-badge me-2"></i>Profil
+                                </a>
                                 <a href="' . route("users.edit", $user->id) . '" class="btn btn-warning btn-sm">
                                     <i class="fa-solid fa-pen-to-square me-2"></i>Ubah
                                 </a>
 								<button type="submit" class="btn btn-danger btn-sm text-light button-delete" data-id="' . $user->id . '" data-name="' . $user->name . '">
-									<i class="fa-solid fa-trash me-2"></i>Hapus
+									<i class="fa-regular fa-trash-can me-2"></i>Hapus
 								</button>
                             </span>';
 				})
@@ -167,8 +171,21 @@ class UserController extends Controller
 
     public function profile(int $userId = null)
     {
-        if(empty($user)) {
-            $userId = auth()->user()->id ?? -1;
+        try {
+            if(empty($user)) {
+                $userId = auth()->user()->id ?? -1;
+            }
+
+            $userData = User::select(["id", "name"])->where("id", $userId)->first();
+            // if(empty($userData)) {
+            //     throw new Exception("User tidak ditemukan."); // ##
+            // }
+
+            return view("users.profile", [
+                "user" => $userData
+            ]);
+        } catch (Exception $exception) {
+            return redirect()->route("users.index")->with("error", $exception->getMessage());
         }
     }
 }

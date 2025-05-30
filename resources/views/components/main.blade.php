@@ -22,7 +22,7 @@
     @yield("headlinks-after-adminlte")
 </head>
 
-<body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+<body class="layout-fixed sidebar-expand-lg bg-body-tertiary" style="background-color: #F5F7FA !important">
     <div class="app-wrapper">
         @include("components.navbar")
         @include("components.sidebar")
