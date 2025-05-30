@@ -1,16 +1,21 @@
-<aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
+<aside class="app-sidebar bg-body-secondaryWOW shadow" data-bs-theme="light" style="background-color: #F5F7FA !important">
     <div class="sidebar-brand">
         <a href="{{ route("home.index") }}" class="brand-link">
-            <img src="{{ asset("images/Logo Cassava Rounded.png") }}" alt="AdminLTE Logo" class="brand-image shadow" />
-            <span class="brand-text fw-light">Cassava</span>
+            <img src="{{ asset("images/Logo Cassava Rounded.png") }}" alt="Logo Cassava" class="brand-image rounded-3 shadow-sm" />
+            <span class="brand-text fw-bold">Cassava</span>
         </a>
+        
     </div>
     <div class="sidebar-wrapper">
+        <div class="bg-info rounded-3 py-2">
+            <p class="text-center m-0">Campus Activity System and Student Achievement Validation</p>
+        </div>
+
         <nav class="mt-2">
             <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
                 <li class="nav-header">BERANDA</li>
                 <li class="nav-item">
-                    <a href="{{ route("dashboard.index") }}" class="nav-link {{ Request::is("dashboard*") ? "active" : "" }}">
+                    <a href="{{ route("dashboard.index") }}" class="nav-link {!! Request::is("dashboard*") ? 'active text-light" style="background-color: #0A2463;' : '' !!}">
                         <i class="nav-icon bi bi-speedometer"></i>
                         <p>Dashboard</p>
                     </a>
@@ -43,13 +48,13 @@
                 </li>
                 <li class="nav-header">AKUN</li>
                 <li class="nav-item">
-                    <a href="{{ route("users.index") }}" class="nav-link {{ Request::is("users*") && !Request::is("profile*") ? "active" : "" }}">
+                    <a href="{{ route("users.index") }}" class="nav-link {!! Request::is("users*") && !Request::is("profile*") ? 'active text-light" style="background-color: #0A2463;' : '' !!}">
                         <i class="nav-icon bi bi-people"></i>
                         <p>Users</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route("users.profile") }}" class="nav-link {{ Request::is("profile*") ? "active" : "" }}">
+                    <a href="{{ route("users.profile") }}" class="nav-link {!! Request::is("profile*") ? 'active text-light" style="background-color: #0A2463;' : '' !!}">
                         <i class="nav-icon bi bi-person-badge"></i>
                         <p>Profil</p>
                     </a>
