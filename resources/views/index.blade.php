@@ -333,7 +333,7 @@
                     </div>
                     <h3>Dasbor Mahasiswa</h3>
                     <p>Akses cepat informasi pribadi, jadwal, notifikasi, dan ringkasan aktivitas Anda.</p>
-                    <a href="/dashboard">Buka Dasbor &rarr;</a>
+                    <a href="{{ route("dashboard.index") }}">Buka Dasbor &rarr;</a>
                 </div>
 
                 <!-- Profil Mahasiswa -->
@@ -346,8 +346,8 @@
                         </svg>
                     </div>
                     <h3>Profil Mahasiswa</h3>
-                    <p>Lihat profil Anda atau mahasiswa lain. URL: `/profil` atau `/profil/{id_mahasiswa}`.</p>
-                    <a href="/profil">Lihat Profil &rarr;</a>
+                    <p>Lihat profil Anda atau mahasiswa lain. URL: `/profile` atau `/profile/{id_mahasiswa}`.</p>
+                    <a href="{{ route("users.profile") }}">Lihat Profil &rarr;</a>
                 </div>
 
                 <!-- Kegiatan UKM -->
