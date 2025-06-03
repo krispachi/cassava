@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="title" content="Cassava" />
+    <meta name="author" content="Krispachi" />
+    <meta name="description" content="Website Sistem Informasi Kegiatan UKM dan TAK." />
+    <meta name="keywords" content="cassava, poin tak, tak, ukm, aktivitas" />
+    <link rel="shortcut icon" href="{{ asset("images/Logo Cassava Rounded.png") }}" type="image/x-icon">
     <title>Portal Aktivitas Mahasiswa - Universitas Primakara</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
