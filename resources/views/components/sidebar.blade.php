@@ -60,13 +60,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                      <form action="{{ route('logout') }}" method="POST" class="d-inline">
-        @csrf
-        <button type="submit" class="nav-link border-0 bg-transparent">
-            <i class="nav-icon bi bi-door-closed"></i>
-            <p>Log Out</p>
-        </button>
-    </form>
+                    <form action="{{ route('logout') }}" method="POST" class="nav-link d-inline-block w-100">
+                        @csrf
+                        <button type="submit" class="border-0 bg-transparent d-flex p-0">
+                            <i class="nav-icon bi bi-door-closed me-2"></i>Log Out
+                        </button>
+                    </form>
                 </li>
             </ul>
         </nav>
