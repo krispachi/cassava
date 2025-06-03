@@ -5,6 +5,7 @@ use App\Http\Controllers\KegiatanUKMController;
 use App\Http\Controllers\TAKController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('index');
@@ -20,10 +21,15 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     
-    Route::get('/dashboard', function () {
-        return view('dashboard.index');
+      Route::get('/dashboard', function () {
+        $user = Auth::user();
+        return match($user->peran) {
+            'Admin' => view('dashboard.admin'),
+            'Mahasiswa' => view('dashboard.mahasiswa'),
+            'UKM' => view('dashboard.ukm'),
+            default => redirect()->route('home.index')
+        };
     })->name('dashboard.index');
-
     // Resource routes dengan gate authorization
     Route::resource('users', UserController::class)->middleware('can:envi-users');
     Route::resource('tak', TAKController::class)->middleware('can:envi-tak');
