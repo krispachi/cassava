@@ -172,20 +172,24 @@ class UserController extends Controller
     public function profile(int $userId = null)
     {
         try {
-            if(empty($user)) {
+            if(empty($userId)) {
                 $userId = auth()->user()->id ?? -1;
             }
 
-            $userData = User::select(["id", "name"])->where("id", $userId)->first();
-            // if(empty($userData)) {
-            //     throw new Exception("User tidak ditemukan."); // ##
-            // }
+            $userData = User::select(["id", "name", "nim", "email", "nomor_telepon", "peran"])->where("id", $userId)->first();
+            if(empty($userData)) {
+                throw new Exception("User tidak ditemukan.");
+            }
 
             return view("users.profile", [
                 "user" => $userData
             ]);
         } catch (Exception $exception) {
-            return redirect()->route("users.index")->with("error", $exception->getMessage());
+            if(auth()->user()->peran ?? -1 == "Admin") {
+                return redirect()->route("users.index")->with("error", $exception->getMessage());
+            } else {
+                return redirect()->route("dashboard.index")->with("error", $exception->getMessage());
+            }
         }
     }
 }
