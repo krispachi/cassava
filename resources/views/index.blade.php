@@ -187,7 +187,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <div class="w-layout py-4 flex items-center justify-between">
             <a href="/" class="flex items-center">
-                <img src="https://sidos.primakara.ac.id//assets/img/new-primakara-crop.png"
+                <img src="{{ asset("images/primakara-logo.png") }}"
                     alt="Logo Universitas Primakara" class="h-10 md:h-12">
             </a>
             <nav class="hidden lg:flex items-center space-x-8">

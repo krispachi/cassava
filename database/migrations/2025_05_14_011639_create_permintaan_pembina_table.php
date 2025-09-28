@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('permintaan_pembina', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('ukm_id')->constrained('ukm')->onDelete('cascade');
             $table->text('alasan');
             $table->enum('status', ['menunggu', 'disetujui', 'ditolak'])->default('menunggu');

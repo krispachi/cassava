@@ -52,7 +52,7 @@
                     <div class="relative p-12 flex flex-col h-full">
                         <!-- Logo in white box -->
                         <div class="bg-white p-4 rounded-xl shadow-md inline-block mb-8 self-start">
-                            <img src="https://sidos.primakara.ac.id/assets/img/new-primakara-crop.png"
+                            <img src="{{ asset("images/primakara-logo.png") }}"
                                 alt="Logo Primakara University" class="h-8">
                         </div>
 

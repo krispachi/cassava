@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('pembina', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('nip')->unique();
             $table->string('bidang_keahlian')->nullable();
             $table->foreignId('ukm_id')->constrained('ukm')->onDelete('cascade');
